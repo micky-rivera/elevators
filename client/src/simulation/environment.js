@@ -14,6 +14,16 @@ class Environment {
                 destination: 20,
                 direction: 'down'
             },
+            {
+                origin: 20,
+                destination: 17,
+                direction: 'up'
+            },
+            {
+                origin: 16,
+                destination: 1,
+                direction: 'up'
+            },
         ];
         this.element = config.element;
         this.canvas = this.element.querySelector('.env-canvas');
@@ -72,8 +82,14 @@ class Environment {
     init() {
         const elev = new Elevator({
             element: this.element,
+            x: 30
+        });
+        const elev2 = new Elevator({
+            element: this.element,
+            x: 60
         });
         this.elevatorList.push(elev);
+        this.elevatorList.push(elev2);
 
         this.elevatorController();
 
