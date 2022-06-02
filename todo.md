@@ -1,12 +1,9 @@
-
-main OTIS logic:
-- when a call is made, system checks which elevator is closest and chooses that one UNLESS:
-    - direction is wrong
-    - maybe other stuff idk yet
-
 todo:
+- elevator should be idle only if calls list is empty
+- elevator should cycle through its calls list and complete the stops
+- elevator should spend a couple seconds making a stop
 
-- each floor should have a corresponding y position value. This should be given to the elevators
+- instantiate 3 elevators
+- give a shitload of random calls and see what breaks
 
-- elevator class should have a function move() where it determines:
-    - am I at destination floor? If not, move towards that floor's corresponding y position
+- create a background that more clearly shows the floors
