@@ -7,22 +7,18 @@ class Environment {
             {
                 origin: 2,
                 destination: 6,
-                direction: 'down'
             },
             {
                 origin: 11,
                 destination: 20,
-                direction: 'down'
             },
             {
                 origin: 20,
                 destination: 17,
-                direction: 'up'
             },
             {
                 origin: 16,
                 destination: 1,
-                direction: 'up'
             },
         ];
         this.element = config.element;
@@ -30,11 +26,33 @@ class Environment {
         this.ctx = this.canvas.getContext('2d');
     }
 
-    elevatorController() {
+    randomCall() {
+        const getRandomInt = (min, max) => {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        /* const newCall = {
+            origin: getRandomInt(1,20),
+            destination: getRandomInt(1,20)
+        } */
+
+        const newCall = {
+            origin: 1,
+            destination: getRandomInt(1,20)
+        }
+
+        this.calls.push(newCall);
+        console.log('add call');
+    }
+
+    elevatorController() { //broken, needs refactor
         let callsToBeRemoved = [];
 
         this.calls.forEach(call => {
             const sortedElevators = this.elevatorList.sort((a,b) => Math.abs(call.origin - a) - Math.abs(call.origin - b));
+            const furthestElevator = sortedElevators[sortedElevators.length - 1];
             let resultElevator;
             
             sortedElevators.forEach(elevator => {
@@ -46,8 +64,12 @@ class Environment {
                     resultElevator = elevator;
                     return;
                 }
-                resultElevator = elevator;
             });
+
+            if (!(resultElevator instanceof Elevator)) { //this case needs tweaking
+                console.log('giving it to furthest elevator');
+                resultElevator = furthestElevator;
+            }
 
             resultElevator.addCall(call);
             callsToBeRemoved.push(call);
@@ -66,7 +88,7 @@ class Environment {
                 }, 17); // 34MS FOR 30FPS 17MS FOR 60FPS
             }).then(res => step());
 
-            //this.elevatorController();
+            this.elevatorController();
 
             this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
@@ -91,9 +113,14 @@ class Environment {
         this.elevatorList.push(elev);
         this.elevatorList.push(elev2);
 
-        this.elevatorController();
-
         this.mainLoop();
+
+
+        window.addEventListener('keydown', (e)=> {
+            if (e.key === 'c') {
+                this.randomCall();
+            }
+        })
     }
 }
 

@@ -1,7 +1,5 @@
 todo:
-- elevator should be idle only if calls list is empty
-- elevator should cycle through its calls list and complete the stops
-- elevator should spend a couple seconds making a stop
+- fix delegation of calls to elevators, it's fucked right now
 
 - instantiate 3 elevators
 - give a shitload of random calls and see what breaks
