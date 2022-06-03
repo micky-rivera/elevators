@@ -111,9 +111,8 @@ class Environment {
     }
 
     init() {
+        const xOffset = ((600 / this.numberOfElevators) - 30) / 2;
         for (let i = 0; i < this.numberOfElevators; i++) {
-            const xOffset = ((600 / this.numberOfElevators) / 2) - 25;
-
             this.elevatorList.push(
                 new Elevator({
                     element: this.element,
