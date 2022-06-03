@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const Form = () => {
+const Form = ({callsList, setCallsList}: FormProps) => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,7 +28,9 @@ const Form = () => {
         body: JSON.stringify(newCall)
       })
       .then(res => res.json())
-      .then(data => console.log('call sent:', data));
+      .then(data => setCallsList(prevState => {
+          return [...prevState, ...data];
+      }));
 
     setOrigin("");
     setDestination("");
@@ -66,11 +68,14 @@ const Form = () => {
         body: JSON.stringify(newCall)
       })
       .then(res => res.json())
-      .then(data => console.log('call sent:', data));
+      .then(data => setCallsList(prevState => {
+        return [...prevState, ...data];
+    }));
   }
 
   return (
     <>
+    <div className='form-container'>
       <form className='call-form' onSubmit={handleSubmit}>
       <p>origin:</p>
         <input
@@ -97,6 +102,7 @@ const Form = () => {
         <button className="call-form__submit">Call Elevator</button>
       </form>
       <button className='call-form__random' onClick={handleRandom}>Send Random Call</button>
+    </div>
     </>
   );
 };
