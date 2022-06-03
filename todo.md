@@ -1,9 +1,8 @@
 todo:
+
+- fix flipped floor values (needs refactor, and needs to be calculated in backend)
+
 - completed calls should be displayed differently
-
-- fix flipped floor values
-
-- display floor numbers
 
 - idle elevators dont always get priority for some reason
 
