@@ -123,6 +123,18 @@ class Environment {
 
         this.mainLoop();
 
+        // start a loop here that pings the backend every couple seconds looking for new calls
+        const getCalls = () => {
+            new Promise((resolve, reject) => {
+                setTimeout(()=>{
+                    resolve();
+                }, 3000);
+            }).then(res => getCalls());
+            fetch('http://localhost:8080/api/calls')
+            .then(res => res.json())
+            .then(data => this.calls.push(...data));
+        }
+        getCalls();
 
         window.addEventListener('keydown', (e)=> {
             if (e.key === 'c') {
