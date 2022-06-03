@@ -29,7 +29,7 @@ const Form = ({callsList, setCallsList}: FormProps) => {
       })
       .then(res => res.json())
       .then(data => setCallsList(prevState => {
-          return [...prevState, ...data];
+          return [...prevState, data];
       }));
 
     setOrigin("");
@@ -69,7 +69,7 @@ const Form = ({callsList, setCallsList}: FormProps) => {
       })
       .then(res => res.json())
       .then(data => setCallsList(prevState => {
-        return [...prevState, ...data];
+        return [...prevState, data];
     }));
   }
 
