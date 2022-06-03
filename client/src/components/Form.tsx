@@ -34,6 +34,41 @@ const Form = () => {
     setDestination("");
   };
 
+  const handleRandom = () => {
+    const getRandomInt = (min: number, max: number) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    const newOrigin = getRandomInt(1,20);
+    const newDestination = getRandomInt(1,20);
+    let newDirection;
+
+    if (newDestination < newOrigin) {
+        newDirection = 'up';
+    } else {
+        newDirection = 'down';
+    }
+
+    const newCall = {
+        origin: newOrigin,
+        destination: newDestination,
+        direction: newDirection
+    }
+
+    fetch('http://localhost:8080/api/calls', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCall)
+      })
+      .then(res => res.json())
+      .then(data => console.log('call sent:', data));
+  }
+
   return (
     <>
       <form className='call-form' onSubmit={handleSubmit}>
@@ -61,6 +96,7 @@ const Form = () => {
         />
         <button className="call-form__submit">Call Elevator</button>
       </form>
+      <button className='call-form__random' onClick={handleRandom}>Send Random Call</button>
     </>
   );
 };

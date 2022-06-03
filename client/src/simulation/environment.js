@@ -15,32 +15,6 @@ class Environment {
         this.numberOfElevators = 5;
     }
 
-    randomCall() {
-        const getRandomInt = (min, max) => {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        const newOrigin = getRandomInt(1,20);
-        const newDestination = getRandomInt(1,20);
-        let newDirection;
-
-        if (newDestination < newOrigin) {
-            newDirection = 'up';
-        } else {
-            newDirection = 'down';
-        }
-
-        const newCall = {
-            origin: newOrigin,
-            destination: newDestination,
-            direction: newDirection
-        }
-
-        this.calls.push(newCall);
-    }
-
     elevatorController() {
         let callsToBeRemoved = [];
 
@@ -123,7 +97,6 @@ class Environment {
 
         this.mainLoop();
 
-        // start a loop here that pings the backend every couple seconds looking for new calls
         const getCalls = () => {
             new Promise((resolve, reject) => {
                 setTimeout(()=>{
@@ -135,12 +108,6 @@ class Environment {
             .then(data => this.calls.push(...data));
         }
         getCalls();
-
-        window.addEventListener('keydown', (e)=> {
-            if (e.key === 'c') {
-                this.randomCall();
-            }
-        })
     }
 }
 
