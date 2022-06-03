@@ -3,31 +3,15 @@ import Elevator from "./elevator";
 class Environment {
     constructor(config) {
         this.elevatorList = [];
-        this.calls = [
-            {
-                origin: 2,
-                destination: 6,
-                direction: 'down'
-            },
-            {
-                origin: 11,
-                destination: 20,
-                direction: 'down'
-            },
-            {
-                origin: 20,
-                destination: 17,
-                direction: 'up'
-            },
-            {
-                origin: 16,
-                destination: 1,
-                direction: 'up'
-            },
-        ];
+        this.calls = [];
         this.element = config.element;
         this.canvas = this.element.querySelector('.env-canvas');
         this.ctx = this.canvas.getContext('2d');
+        this.image = new Image();
+        this.image.onload = () => {
+            this.isLoaded = true;
+        }
+        this.image.src = require('../background.png');
     }
 
     randomCall() {
@@ -54,7 +38,6 @@ class Environment {
         }
 
         this.calls.push(newCall);
-        console.log('added random call');
     }
 
     elevatorController() {
@@ -66,16 +49,20 @@ class Environment {
             
             sortedElevators.forEach(elevator => {
                 if (elevator.isIdle) {
+                    console.log('call given to idle elevator');
                     resultElevator = elevator;
+                    elevator.isIdle = false;
                     return;
                 }
                 if (elevator.direction === call.direction) {
+                    console.log('call given to elevetor on route');
                     resultElevator = elevator;
                     return;
                 }
             });
 
             if (!(resultElevator instanceof Elevator)) {
+                console.log('call given to least busy elevator');
                 const leastBusyElevator = this.elevatorList.sort((a,b) => a.pendingCalls.length - b.pendingCalls.length)[0];
                 resultElevator = leastBusyElevator;
             }
@@ -91,7 +78,7 @@ class Environment {
 
     mainLoop() {
         const step = () => {
-            new Promise((resolve, reject) => { // frame buffer to control framerate
+            new Promise((resolve, reject) => {
                 setTimeout(()=>{
                     resolve();
                 }, 17); // 34MS FOR 30FPS 17MS FOR 60FPS
@@ -100,6 +87,18 @@ class Environment {
             this.elevatorController();
 
             this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+
+            this.isLoaded && this.ctx.drawImage(
+                this.image,
+                0, //horizontal cut
+                0, //vertical cut (rows)
+                600, //size of cut x
+                550, //size of cut y, i like ya cut g
+                0, //x position
+                0, //y position
+                600,
+                550
+            );
 
             this.elevatorList.forEach(elevator => {
                 elevator.draw(this.ctx);
@@ -119,8 +118,23 @@ class Environment {
             element: this.element,
             x: 60
         });
+        const elev3 = new Elevator({
+            element: this.element,
+            x: 90
+        });
+        const elev4 = new Elevator({
+            element: this.element,
+            x: 120
+        });
+        const elev5 = new Elevator({
+            element: this.element,
+            x: 150
+        });
         this.elevatorList.push(elev);
         this.elevatorList.push(elev2);
+        this.elevatorList.push(elev3);
+        this.elevatorList.push(elev4);
+        this.elevatorList.push(elev5);
 
         this.mainLoop();
 

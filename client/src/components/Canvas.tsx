@@ -19,7 +19,7 @@ function Canvas() {
   return (
     <>
         <div className="env-container">
-            <canvas className="env-canvas" width="1920" height="1080"></canvas>
+            <canvas className="env-canvas" width="600" height="550"></canvas>
         </div>
     </>
   );

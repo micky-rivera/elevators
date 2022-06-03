@@ -1,7 +1,9 @@
 todo:
-- fix delegation of calls to elevators, it's fucked right now
-
-- instantiate 3 elevators
-- give a shitload of random calls and see what breaks
 
 - create a background that more clearly shows the floors
+- move elevators to more even x positions
+
+- sorting logic should be done in backend
+
+- list all current calls (pending and taken)
+- maybe some cheeky art

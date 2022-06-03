@@ -1,0 +1,10 @@
+.env-container {
+    width: fit-content;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+.env-canvas {
+    border: 1px solid black;
+    border-radius: 15px;
+}

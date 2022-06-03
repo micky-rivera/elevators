@@ -5,7 +5,7 @@ class Elevator {
         this.takenCalls = [];
         this.destinations = [];
         this.x = config.x;
-        this.y = 0;
+        this.y = 25;
         this.destinationFloor = 8;
         this.isIdle = true;
         this.direction = 'down';
