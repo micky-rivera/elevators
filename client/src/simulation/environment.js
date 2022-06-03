@@ -12,6 +12,7 @@ class Environment {
             this.isLoaded = true;
         }
         this.image.src = require('../background.png');
+        this.numberOfElevators = 5;
     }
 
     randomCall() {
@@ -110,31 +111,16 @@ class Environment {
     }
 
     init() {
-        const elev = new Elevator({
-            element: this.element,
-            x: 30
-        });
-        const elev2 = new Elevator({
-            element: this.element,
-            x: 60
-        });
-        const elev3 = new Elevator({
-            element: this.element,
-            x: 90
-        });
-        const elev4 = new Elevator({
-            element: this.element,
-            x: 120
-        });
-        const elev5 = new Elevator({
-            element: this.element,
-            x: 150
-        });
-        this.elevatorList.push(elev);
-        this.elevatorList.push(elev2);
-        this.elevatorList.push(elev3);
-        this.elevatorList.push(elev4);
-        this.elevatorList.push(elev5);
+        for (let i = 0; i < this.numberOfElevators; i++) {
+            const xOffset = ((600 / this.numberOfElevators) / 2) - 25;
+
+            this.elevatorList.push(
+                new Elevator({
+                    element: this.element,
+                    x: i * (600 / this.numberOfElevators) + xOffset
+                })
+            );
+        }
 
         this.mainLoop();
 
