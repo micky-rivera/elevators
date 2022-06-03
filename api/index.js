@@ -6,27 +6,11 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-let calls = [
-    {
-        origin: 12,
-        destination: 2,
-        direction: 'up'
-    },
-    {
-        origin: 5,
-        destination: 2,
-        direction: 'up'
-    },
-    {
-        origin: 2,
-        destination: 20,
-        direction: 'down'
-    },
-];
+let calls = [];
 
 app.post('/api/calls', (req, res) => {
     calls.push(req.body);
-    res.status(201).json(calls);
+    res.status(201).json(req.body);
 });
 
 app.get('/api/calls', (req, res) => {

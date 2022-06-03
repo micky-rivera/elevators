@@ -12,7 +12,7 @@ class Environment {
             this.isLoaded = true;
         }
         this.image.src = require('../background.png');
-        this.numberOfElevators = 5;
+        this.numberOfElevators = 7;
     }
 
     elevatorController() {
