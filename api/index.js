@@ -5,17 +5,22 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+const utils = require('./utils.js');
 
 let calls = [];
+let dispatchedCalls = [];
+
+app.post('/api/assignments', (req, res) => {
+    const elevators = req.body;
+    const assignments = utils.assignCalls(elevators, calls);
+    dispatchedCalls.push(...calls);
+    calls = [];
+    res.status(201).json(assignments);
+});
 
 app.post('/api/calls', (req, res) => {
     calls.push(req.body);
     res.status(201).json(req.body);
-});
-
-app.get('/api/calls', (req, res) => {
-    res.json(calls);
-    calls = [];
 });
 
 app.get('/', async (req, res) => {

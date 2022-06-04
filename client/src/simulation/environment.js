@@ -15,39 +15,12 @@ class Environment {
         this.numberOfElevators = 5;
     }
 
-    elevatorController() {
-        let callsToBeRemoved = [];
-
-        this.calls.forEach(call => {
-            const sortedElevators = this.elevatorList.sort((a,b) => Math.abs(call.origin - a) - Math.abs(call.origin - b));
-            let resultElevator;
-            
-            sortedElevators.forEach(elevator => {
-                if (elevator.isIdle) {
-                    console.log('call given to idle elevator');
-                    resultElevator = elevator;
-                    elevator.isIdle = false;
-                    return;
-                }
-                if (elevator.direction === call.direction) {
-                    console.log('call given to elevetor on route');
-                    resultElevator = elevator;
-                    return;
-                }
-            });
-
-            if (!(resultElevator instanceof Elevator)) {
-                console.log('call given to least busy elevator');
-                const leastBusyElevator = this.elevatorList.sort((a,b) => a.pendingCalls.length - b.pendingCalls.length)[0];
-                resultElevator = leastBusyElevator;
-            }
-
-            resultElevator.addCall(call);
-            callsToBeRemoved.push(call);
-        });
-
-        callsToBeRemoved.forEach(callToBeRemoved => {
-            this.calls = [...this.calls].filter(call => call !== callToBeRemoved);
+    deliverCalls(data) {
+        data.forEach(object => {
+            const elevator = this.elevatorList.find(elevator => elevator.x === object.elevator.x);
+            object.calls.forEach(call=> {
+                elevator.addCall(call);
+            })
         });
     }
 
@@ -56,21 +29,19 @@ class Environment {
             new Promise((resolve, reject) => {
                 setTimeout(()=>{
                     resolve();
-                }, 17); // 34MS FOR 30FPS 17MS FOR 60FPS
+                }, 17);
             }).then(res => step());
-
-            this.elevatorController();
 
             this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
             this.isLoaded && this.ctx.drawImage(
                 this.image,
-                0, //horizontal cut
-                0, //vertical cut (rows)
-                600, //size of cut x
-                550, //size of cut y, i like ya cut g
-                0, //x position
-                0, //y position
+                0,
+                0,
+                600,
+                550,
+                0,
+                0,
                 600,
                 550
             );
@@ -103,9 +74,19 @@ class Environment {
                     resolve();
                 }, 3000);
             }).then(res => getCalls());
-            fetch('http://localhost:8080/api/calls')
+
+            fetch('http://localhost:8080/api/assignments', {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.elevatorList)
+            })
             .then(res => res.json())
-            .then(data => this.calls.push(...data));
+            .then(data => {
+                this.deliverCalls(data);
+            });
         }
         getCalls();
     }
