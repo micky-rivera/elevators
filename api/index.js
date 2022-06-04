@@ -11,11 +11,14 @@ let calls = [];
 let dispatchedCalls = [];
 
 app.post('/api/assignments', (req, res) => {
-    const elevators = req.body;
-    const assignments = utils.assignCalls(elevators, calls);
-    dispatchedCalls.push(...calls);
-    calls = [];
-    res.status(201).json(assignments);
+    if (calls.length > 0) {
+        const elevators = req.body;
+        const assignments = utils.assignCalls(elevators, calls);
+        dispatchedCalls.push(...calls);
+        calls = [...calls].filter(call => !dispatchedCalls.includes(call));
+        return res.status(201).json(assignments);
+    }
+    return res.status(201).json([]);
 });
 
 app.post('/api/calls', (req, res) => {
