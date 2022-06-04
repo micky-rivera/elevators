@@ -1,13 +1,21 @@
 todo:
 
 - sorting algorithm refactor
-    - idle elevators dont always get priority for some reason
     - fix flipped floor values (needs refactor, and needs to be calculated in backend)
 
+
+backlog:
+
 - completed calls should be displayed differently
+    - when completed, they should be greyed out and have a (completed) tag on them
 
 - should be able to change number of elevators on the screen
+    - need to not take up the full 600px width, so even if there are 1000 elevators, they dont cover the floor number
 
 - maybe some cheeky art
+    - pixel art might be unprofesh, idk
 
-- ultra refactor
+- change js files to ts files
+    - emphasize the type usage
+
+- dockerize and deploy on heroku
