@@ -4,8 +4,6 @@ const ElevatorForm = ({numberOfElevatorsInput, setNumberOfElevatorsInput}: Eleva
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    setNumberOfElevatorsInput('');
   };
 
   return (
@@ -23,7 +21,6 @@ const ElevatorForm = ({numberOfElevatorsInput, setNumberOfElevatorsInput}: Eleva
           placeholder="5"
           onChange={(e) => setNumberOfElevatorsInput(e.target.value)}
         />
-        <button className="elevator-form__submit">Submit</button>
       </form>
     </div>
     </>

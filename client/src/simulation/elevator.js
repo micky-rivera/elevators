@@ -75,7 +75,7 @@ class Elevator {
                 this.updateDestinationsArray();
                 this.destinationFloor = this.destinations[0];
                 const destinationYValue = convertToYValue(this.destinationFloor)
-
+                
                 if (this.y < destinationYValue) {
                     this.y++;
                     this.direction = 'down';
