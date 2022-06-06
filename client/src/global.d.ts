@@ -9,7 +9,8 @@ declare global {
 
     interface FormProps {
         callsList: Call[],
-        setCallsList: React.Dispatch<React.SetStateAction<Call[]>>
+        setCallsList: React.Dispatch<React.SetStateAction<Call[]>>,
+        env: {}
     };
     
     interface CallsListProps {
@@ -23,6 +24,9 @@ declare global {
     };
 
     interface CanvasProps {
-        numberOfElevatorsInput: string
+        callsList: Call[],
+        numberOfElevatorsInput: string,
+        env: {},
+        setEnv: React.Dispatch<React.SetStateAction<{}>>
     };
 };

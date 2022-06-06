@@ -1,8 +1,9 @@
 todo:
-- completed calls should be displayed differently
-    - when completed, they should be greyed out and have a (completed) tag on them
+- en route elevator disregards destination floor
 
 backlog:
+- completed calls should be displayed differently
+    - when completed, they should be greyed out and have a (completed) tag on them
 
 - change js files to ts files
 

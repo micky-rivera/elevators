@@ -22,41 +22,40 @@ const formatElevatorData = (elevators) => {
     return result;
 }
 
-const assignCalls = (elevators, calls) => {
+const assignCalls = (elevators, call) => {
     const result = formatElevatorData(elevators);
 
-    calls.forEach(call => {
-        const sortedElevators = elevators.sort((a,b) => Math.abs(call.origin - a) - Math.abs(call.origin - b));
-        let resultElevator;
+    const sortedElevators = elevators.sort((a,b) => Math.abs(call.origin - a) - Math.abs(call.origin - b));
+    let resultElevator;
 
+    for (let i = 0; i < sortedElevators.length; i++) {
+        const elevator = sortedElevators[i];
+        if (elevator.isIdle) {
+            elevator.isIdle = false;
+            resultElevator = elevator;
+            break;
+        }
+    }
+
+    if (resultElevator === undefined) {
         for (let i = 0; i < sortedElevators.length; i++) {
             const elevator = sortedElevators[i];
-            if (elevator.isIdle) {
-                elevator.isIdle = false;
+            if (elevator.direction === call.direction) {
                 resultElevator = elevator;
                 break;
             }
         }
+    }
 
-        if (resultElevator === undefined) {
-            for (let i = 0; i < sortedElevators.length; i++) {
-                const elevator = sortedElevators[i];
-                if (elevator.direction === call.direction) {
-                    resultElevator = elevator;
-                    break;
-                }
-            }
-        }
+    if (resultElevator === undefined) {
+        const leastBusyElevator = findLeastBusy(elevators, result);
+        resultElevator = leastBusyElevator;
+    }
 
-        if (resultElevator === undefined) {
-            const leastBusyElevator = findLeastBusy(elevators, result);
-            resultElevator = leastBusyElevator;
-        }
+    /* const oneToChange = result.find(element => element.elevator.x === resultElevator.x);
+    oneToChange.calls.push(call); */
 
-        const oneToChange = result.find(element => element.elevator.x === resultElevator.x);
-        oneToChange.calls.push(call);
-    });
-    return result;
+    return resultElevator;
 };
 
 module.exports.assignCalls = assignCalls;

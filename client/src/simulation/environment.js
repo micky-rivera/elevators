@@ -1,11 +1,10 @@
 import Elevator from "./elevator";
 
-const url = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://elevators-micky.herokuapp.com";
-
 class Environment {
     constructor(config) {
         this.elevatorList = [];
         this.calls = [];
+        this.dispatchedCalls = [];
         this.element = config.element;
         this.canvas = this.element.querySelector('.env-canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -31,13 +30,13 @@ class Environment {
         }
     }
 
-    deliverCalls(data) {
-        data.forEach(object => {
-            const elevator = this.elevatorList.find(elevator => elevator.x === object.elevator.x);
-            object.calls.forEach(call=> {
-                elevator.addCall(call);
-            })
-        });
+    getElevatorList() {
+        return this.elevatorList;
+    }
+
+    assignCall(call, elevator) {
+        const correctElevator = this.elevatorList.find(object => elevator.x === object.x);
+        correctElevator.addCall(call);
     }
 
     mainLoop() {
@@ -73,28 +72,6 @@ class Environment {
 
     init() {
         this.mainLoop();
-
-        const getCalls = () => {
-            new Promise((resolve, reject) => {
-                setTimeout(()=>{
-                    resolve();
-                }, 3000);
-            }).then(res => getCalls());
-
-            fetch(`${url}/api/assignments`, {
-                method: 'POST',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.elevatorList)
-            })
-            .then(res => res.json())
-            .then(data => {
-                this.deliverCalls(data);
-            });
-        }
-        getCalls();
     }
 }
 

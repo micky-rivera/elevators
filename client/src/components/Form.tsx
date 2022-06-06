@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react";
+import Environment from "../simulation/environment";
+import Elevator from "../simulation/elevator";
 
-const url = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://elevators-micky.herokuapp.com";
+const url = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "";
 
-const Form = ({callsList, setCallsList}: FormProps) => {
+const Form = ({callsList, setCallsList, env}: FormProps) => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    let elevators: Elevator[] = [];
+    if (env instanceof Environment) {
+        elevators = env.getElevatorList();
+    }
 
     let direction;
     if (destination < origin) {
@@ -27,12 +34,18 @@ const Form = ({callsList, setCallsList}: FormProps) => {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newCall)
+        body: JSON.stringify({
+            call: newCall,
+            elevatorList: elevators
+        })
       })
       .then(res => res.json())
-      .then(data => setCallsList(prevState => {
-          return [...prevState, data];
-      }));
+      .then(data => {
+          setCallsList(previousState => [...previousState, newCall]);
+          if (env instanceof Environment) {
+            return env.assignCall(newCall, data);
+          }
+      });
 
     setOrigin("");
     setDestination("");
@@ -43,6 +56,11 @@ const Form = ({callsList, setCallsList}: FormProps) => {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    let elevators: Elevator[] = [];
+    if (env instanceof Environment) {
+        elevators = env.getElevatorList();
     }
 
     const newOrigin = getRandomInt(1,20);
@@ -67,12 +85,18 @@ const Form = ({callsList, setCallsList}: FormProps) => {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newCall)
+        body: JSON.stringify({
+            call: newCall,
+            elevatorList: elevators
+        })
       })
       .then(res => res.json())
-      .then(data => setCallsList(prevState => {
-        return [...prevState, data];
-    }));
+      .then(data => {
+        setCallsList(previousState => [...previousState, newCall]);
+        if (env instanceof Environment) {
+          return env.assignCall(newCall, data);
+        }
+    });
   }
 
   return (
