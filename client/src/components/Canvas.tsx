@@ -8,7 +8,8 @@ function Canvas() {
     useEffect(()=>{
         if (!envLoaded) {
             const env = new Environment({
-                element: document.querySelector('.env-container')
+                element: document.querySelector('.env-container'),
+                numberOfElevators: 5
             });
             
             env.init();

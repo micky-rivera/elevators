@@ -7,15 +7,15 @@ const Form = ({callsList, setCallsList}: FormProps) => {
     e.preventDefault();
 
     let direction;
-    if (origin > destination) {
-        direction = 'up';
-    } else {
+    if (destination < origin) {
         direction = 'down';
+    } else {
+        direction = 'up';
     }
 
-    const newCall = {
-        origin: origin,
-        destination: destination,
+    const newCall: Call = {
+        origin: parseInt(origin),
+        destination: parseInt(destination),
         direction: direction
     }
 
@@ -53,7 +53,7 @@ const Form = ({callsList, setCallsList}: FormProps) => {
         newDirection = 'up';
     }
 
-    const newCall = {
+    const newCall: Call = {
         origin: newOrigin,
         destination: newDestination,
         direction: newDirection

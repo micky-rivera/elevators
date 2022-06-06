@@ -1,16 +1,15 @@
 todo:
 
-- fix flipped floor values
-    - probably done using a shitty utility function that converts y position to floor number
+- should be able to change number of elevators on the screen
+    - form input that take number
+    - button that dismounts and remounts the canvas with correct input from state
+    - need to not take up the full 600px width, so even if there are 1000 elevators, they dont cover the floor number
 
 
 backlog:
 
 - completed calls should be displayed differently
     - when completed, they should be greyed out and have a (completed) tag on them
-
-- should be able to change number of elevators on the screen
-    - need to not take up the full 600px width, so even if there are 1000 elevators, they dont cover the floor number
 
 - maybe some cheeky art
     - pixel art might be unprofesh, idk

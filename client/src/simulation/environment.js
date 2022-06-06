@@ -1,3 +1,4 @@
+import { getConfigFileParsingDiagnostics } from "typescript";
 import Elevator from "./elevator";
 
 class Environment {
@@ -12,7 +13,7 @@ class Environment {
             this.isLoaded = true;
         }
         this.image.src = require('../background.png');
-        this.numberOfElevators = 5;
+        this.numberOfElevators = config.numberOfElevators || 5;
     }
 
     deliverCalls(data) {
