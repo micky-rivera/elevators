@@ -17,4 +17,12 @@ declare global {
         setCallsList: React.Dispatch<React.SetStateAction<Call[]>>
     };
     
+    interface ElevatorFormProps {
+        numberOfElevatorsInput: string,
+        setNumberOfElevatorsInput: React.Dispatch<React.SetStateAction<string>>
+    };
+
+    interface CanvasProps {
+        numberOfElevatorsInput: string
+    };
 };

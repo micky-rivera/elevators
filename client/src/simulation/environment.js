@@ -16,6 +16,20 @@ class Environment {
         this.numberOfElevators = config.numberOfElevators || 5;
     }
 
+    updateNumberOfElevators(num) {
+        this.numberOfElevators = num > 0 ? num : 5;
+        this.elevatorList = [];
+        const xOffset = ((600 / this.numberOfElevators) - 30) / 2;
+        for (let i = 0; i < this.numberOfElevators; i++) {
+            this.elevatorList.push(
+                new Elevator({
+                    element: this.element,
+                    x: i * (600 / this.numberOfElevators) + xOffset
+                })
+            );
+        }
+    }
+
     deliverCalls(data) {
         data.forEach(object => {
             const elevator = this.elevatorList.find(elevator => elevator.x === object.elevator.x);
@@ -57,16 +71,6 @@ class Environment {
     }
 
     init() {
-        const xOffset = ((600 / this.numberOfElevators) - 30) / 2;
-        for (let i = 0; i < this.numberOfElevators; i++) {
-            this.elevatorList.push(
-                new Elevator({
-                    element: this.element,
-                    x: i * (600 / this.numberOfElevators) + xOffset
-                })
-            );
-        }
-
         this.mainLoop();
 
         const getCalls = () => {

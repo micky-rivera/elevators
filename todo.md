@@ -1,7 +1,7 @@
 todo:
 
 - should be able to change number of elevators on the screen
-    - form input that take number
+    - form input that takes number
     - button that dismounts and remounts the canvas with correct input from state
     - need to not take up the full 600px width, so even if there are 1000 elevators, they dont cover the floor number
 

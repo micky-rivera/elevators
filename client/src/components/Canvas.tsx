@@ -1,21 +1,21 @@
 import {useEffect} from 'react';
 import Environment from '../simulation/environment'
 
-let envLoaded = false;
+let env: Environment;
 
-function Canvas() {
+function Canvas({numberOfElevatorsInput}: CanvasProps) {
 
     useEffect(()=>{
-        if (!envLoaded) {
-            const env = new Environment({
-                element: document.querySelector('.env-container'),
-                numberOfElevators: 5
-            });
-            
-            env.init();
-            envLoaded = true;
-        }
+        env = new Environment({
+            element: document.querySelector('.env-container'),
+        });
+        
+        env.init();
     }, []);
+
+    useEffect(()=>{
+        env.updateNumberOfElevators(parseInt(numberOfElevatorsInput));
+    }, [numberOfElevatorsInput]);
 
   return (
     <>
