@@ -48,9 +48,9 @@ const Form = ({callsList, setCallsList}: FormProps) => {
     let newDirection;
 
     if (newDestination < newOrigin) {
-        newDirection = 'up';
-    } else {
         newDirection = 'down';
+    } else {
+        newDirection = 'up';
     }
 
     const newCall = {

@@ -1,7 +1,5 @@
 todo:
 
-- least busy elevator is not actually accurate
-
 - fix flipped floor values
     - probably done using a shitty utility function that converts y position to floor number
 

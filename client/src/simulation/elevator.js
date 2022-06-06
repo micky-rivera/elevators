@@ -1,3 +1,5 @@
+import convertToYValue from "./utils";
+
 class Elevator {
     constructor(config) {
         this.elevatorList = [];
@@ -16,18 +18,18 @@ class Elevator {
         const downDirectionFloors = [];
         let result;
         this.pendingCalls.forEach(call => {
-            if (call.origin * 25 < this.y) {
+            if (convertToYValue(call.origin) < this.y) {
                 upDirectionFloors.push(call.origin);
             }
-            if (call.origin * 25 > this.y) {
+            if (convertToYValue(call.origin) > this.y) {
                 downDirectionFloors.push(call.origin);
             }
         });
         this.takenCalls.forEach(call => {
-            if (call.destination * 25 < this.y) {
+            if (convertToYValue(call.destination) < this.y) {
                 upDirectionFloors.push(call.destination);
             }
-            if (call.destination * 25 > this.y) {
+            if (convertToYValue(call.destination) > this.y) {
                 downDirectionFloors.push(call.destination);
             }
         });
@@ -72,16 +74,17 @@ class Elevator {
             if (!this.stopped) {
                 this.updateDestinationsArray();
                 this.destinationFloor = this.destinations[0];
+                const destinationYValue = convertToYValue(this.destinationFloor)
 
-                if (this.y < this.destinationFloor * 25) {
+                if (this.y < destinationYValue) {
                     this.y++;
                     this.direction = 'down';
                 }
-                if (this.y > this.destinationFloor * 25) {
+                if (this.y > destinationYValue) {
                     this.y--;
                     this.direction = 'up';
                 }
-                if (this.y === this.destinationFloor * 25) {
+                if (this.y === destinationYValue) {
                     this.stopped = true;
                     this.updateCalls();
                     new Promise((resolve,reject) => {
