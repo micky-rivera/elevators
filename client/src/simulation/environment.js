@@ -1,5 +1,6 @@
-import { getConfigFileParsingDiagnostics } from "typescript";
 import Elevator from "./elevator";
+
+const url = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://elevators-micky.herokuapp.com";
 
 class Environment {
     constructor(config) {
@@ -80,7 +81,7 @@ class Environment {
                 }, 3000);
             }).then(res => getCalls());
 
-            fetch('http://localhost:8080/api/assignments', {
+            fetch(`${url}/api/assignments`, {
                 method: 'POST',
                 headers: {
                 'Accept': 'application/json',

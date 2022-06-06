@@ -2,6 +2,8 @@
 
 A small application simulating elevator calls.
 <br/>
+Available at: https://elevators-micky.herokuapp.com/
+<br/>
 <br/>
 
 ## Getting Started
@@ -25,3 +27,9 @@ The logic for which elevators receive which calls is an extremely simplified ver
 <br/>
 <br/>
 The main logic can be found in the assignCalls function in api/utils.js
+<br/>
+<br/>
+
+## Work left to be done
+
+There is a todo.md specifying some tasks left uncompleted

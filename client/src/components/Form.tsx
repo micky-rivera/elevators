@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const url = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://elevators-micky.herokuapp.com";
+
 const Form = ({callsList, setCallsList}: FormProps) => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -19,7 +21,7 @@ const Form = ({callsList, setCallsList}: FormProps) => {
         direction: direction
     }
 
-    fetch('http://localhost:8080/api/calls', {
+    fetch(`${url}/api/calls`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -59,7 +61,7 @@ const Form = ({callsList, setCallsList}: FormProps) => {
         direction: newDirection
     }
 
-    fetch('http://localhost:8080/api/calls', {
+    fetch(`${url}/api/calls`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
