@@ -1,7 +1,9 @@
 todo:
 
-- sorting algorithm refactor
-    - fix flipped floor values (needs refactor, and needs to be calculated in backend)
+- least busy elevator is not actually accurate
+
+- fix flipped floor values
+    - probably done using a shitty utility function that converts y position to floor number
 
 
 backlog:
@@ -19,3 +21,9 @@ backlog:
     - emphasize the type usage
 
 - dockerize and deploy on heroku
+
+- clear calls button
+
+- reset elevators button
+
+- fix css of page

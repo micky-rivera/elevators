@@ -13,9 +13,10 @@ let dispatchedCalls = [];
 app.post('/api/assignments', (req, res) => {
     if (calls.length > 0) {
         const elevators = req.body;
-        const assignments = utils.assignCalls(elevators, calls);
+        const currentCalls = [...calls];
         dispatchedCalls.push(...calls);
         calls = [...calls].filter(call => !dispatchedCalls.includes(call));
+        const assignments = utils.assignCalls(elevators, currentCalls);
         return res.status(201).json(assignments);
     }
     return res.status(201).json([]);
