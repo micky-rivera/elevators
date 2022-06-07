@@ -14,41 +14,76 @@ class Elevator {
     }
 
     updateDestinationsArray() {
-        const upDirectionFloors = [];
-        const downDirectionFloors = [];
-        let result;
+
+        let result = [];
+        let direction = '';
+
+        const upDirectionCalls = [];
+        const downDirectionCalls = [];
         this.pendingCalls.forEach(call => {
             if (convertToYValue(call.origin) < this.y) {
-                upDirectionFloors.push(call.origin);
-            }
-            if (convertToYValue(call.origin) > this.y) {
-                downDirectionFloors.push(call.origin);
+                upDirectionCalls.push(call);
+            } else {
+                downDirectionCalls.push(call);
             }
         });
         this.takenCalls.forEach(call => {
             if (convertToYValue(call.destination) < this.y) {
-                upDirectionFloors.push(call.destination);
-            }
-            if (convertToYValue(call.destination) > this.y) {
-                downDirectionFloors.push(call.destination);
+                upDirectionCalls.push(call);
+            } else {
+                downDirectionCalls.push(call);
             }
         });
 
-        upDirectionFloors.sort((a,b) => b-a);
-        downDirectionFloors.sort((a,b) => a-b);
-
-        if (this.direction === 'up') {
-            result = [...upDirectionFloors, ...downDirectionFloors];
+        if (upDirectionCalls.length > 0) {
+            direction = 'up';
+            result = upDirectionCalls;
         } else {
-            result = [...downDirectionFloors, ...upDirectionFloors];
+            direction = 'down';
+            result = downDirectionCalls;
         }
 
+        let sameRoute = [];
+        let oppositeRoute = [];
+        result.forEach(call => {
+            if (direction === call.direction) {
+                sameRoute.push(call);
+            } else {
+                oppositeRoute.push(call);
+            }
+        })
+
+        sameRoute = sameRoute.map(call => {
+            if (this.takenCalls.includes(call)) {
+                return convertToYValue(call.destination);
+            } else {
+                return convertToYValue(call.origin);
+            }
+        });
+        oppositeRoute = oppositeRoute.map(call => {
+            if (this.takenCalls.includes(call)) {
+                return convertToYValue(call.destination);
+            } else {
+                return convertToYValue(call.origin);
+            }
+        });
+
+        result = [...sameRoute, ...oppositeRoute];
+
+        result = result.sort((a,b) => {
+            if (direction === 'up') {
+                return b-a;
+            } else {
+                return a-b;
+            }
+        });
+        
         this.destinations = result;
     }
 
     updateCalls() {
-        const pendingMatches = this.pendingCalls.filter(call => call.origin === this.destinationFloor);
-        const takenMatches = this.takenCalls.filter(call => call.destination === this.destinationFloor);
+        const pendingMatches = this.pendingCalls.filter(call => convertToYValue(call.origin) === this.destinationFloor);
+        const takenMatches = this.takenCalls.filter(call => convertToYValue(call.destination) === this.destinationFloor);
 
         if (pendingMatches.length > 0) {
             pendingMatches.forEach(callToMove => {
@@ -74,14 +109,14 @@ class Elevator {
             if (!this.stopped) {
                 this.updateDestinationsArray();
                 this.destinationFloor = this.destinations[0];
-                const destinationYValue = convertToYValue(this.destinationFloor)
+                const destinationYValue = this.destinationFloor;
                 
                 if (this.y < destinationYValue) {
-                    this.y++;
+                    this.y = this.y + 0.25;
                     this.direction = 'down';
                 }
                 if (this.y > destinationYValue) {
-                    this.y--;
+                    this.y = this.y - 0.25;
                     this.direction = 'up';
                 }
                 if (this.y === destinationYValue) {

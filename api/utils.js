@@ -52,9 +52,6 @@ const assignCalls = (elevators, call) => {
         resultElevator = leastBusyElevator;
     }
 
-    /* const oneToChange = result.find(element => element.elevator.x === resultElevator.x);
-    oneToChange.calls.push(call); */
-
     return resultElevator;
 };
 
