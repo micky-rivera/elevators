@@ -1,3 +1,17 @@
+const convertToYValue = (inputFloor) => {
+    let result;
+    
+    const distanceFromBottom = inputFloor - 1;
+    const distanceFromTop = 20 - inputFloor;
+
+    if (distanceFromBottom > distanceFromTop) {
+        result = 25 + (distanceFromTop * 25);
+    } else {
+        result = 500 - (distanceFromBottom * 25);
+    }
+    return result;
+}
+
 const findLeastBusy = (clientElevators, serverElevators) => {
     const totalCallsArray = [];
     let result;
@@ -25,7 +39,7 @@ const formatElevatorData = (elevators) => {
 const assignCalls = (elevators, call) => {
     const result = formatElevatorData(elevators);
 
-    const sortedElevators = elevators.sort((a,b) => Math.abs(call.origin - a) - Math.abs(call.origin - b));
+    const sortedElevators = elevators.sort((a,b) => Math.abs(convertToYValue(call.origin) - a.y) - Math.abs(convertToYValue(call.origin) - b.y));
     let resultElevator;
 
     for (let i = 0; i < sortedElevators.length; i++) {
